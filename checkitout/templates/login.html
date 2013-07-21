@@ -1,0 +1,9 @@
+{% extends "boilerplate.html" %}
+
+{% block page %}
+    <form method="POST" action="{{ url_for('login') }}">
+        {{ form.csrf_token }}
+        {{ form.username.label }} {{ form.username(size=20) }}
+        <button type="submit">lalala</button>
+    </form>
+{% endblock %}

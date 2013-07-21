@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <header>
+        <h1>check it out</h1>
+    </header>
+    <nav>
+        {% if current_user.is_authenticated() %}
+        <ul>
+            <li>
+                <a href="{{ url_for('account') }}">{{ current_user.username }}</a>
+            </li>
+            <li>
+                <a href="{{ url_for('logout') }}">log out</a>
+            </li>
+        </ul>
+        {% else %}
+            <a href="{{ url_for('login') }}">log in</a>
+        {% endif %}
+     </nav>
+    {% block page %}
+        <p>nothing to see here...</p>
+    {% endblock %}
+{% endblock %}
