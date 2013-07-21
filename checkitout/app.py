@@ -1,18 +1,20 @@
 #!/usr/bin/env python2
 
 import tempfile
-from flask import Flask
 import git
+
+from flask import Flask
+app = Flask(__name__)
+
 from db import db
 
 
 REPO_PATH = "/home/phil/Code/calama-kale"
 
 
-app = Flask(__name__)
 
 
-@app.route('/'):
+@app.route('/')
 def hello():
     return 'hey hey'
 
