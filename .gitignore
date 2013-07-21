@@ -1,0 +1,9 @@
+# python crap
+*pyc
+*pyo
+
+# virtualenv crap
+venv/
+
+# file backup crap
+*~
