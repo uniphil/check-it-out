@@ -1,6 +1,14 @@
 {% extends "boilerplate.html" %}
 
 {% block page %}
-    <h1>hello hello</h1>
-    {{ g }}
+    <h1>project name or something lalala</h1>
+    <section id="branches">
+        <h2>Check out the branches</h2>
+        <ul>
+            {% for branch in repo.heads %}
+                <li>
+                    <a href="{{ url_for('branch', name=branch.name) }}">{{ branch.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
 {% endblock %}

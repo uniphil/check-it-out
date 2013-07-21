@@ -1,12 +1,20 @@
 from flask import request, render_template, url_for, redirect
-from flask.ext.login import login_user, logout_user, login_required
+from flask.ext.login import current_user, login_user, logout_user, login_required
 from . import app
 from .forms import LoginForm
 from db import User
 
 @app.route("/")
 def hello():
-    return render_template("home.html")
+    if current_user.is_authenticated():
+        from .repository import repo
+        return render_template("home.html", repo=repo)
+    return render_template("pitch.html")
+
+
+@app.route("/branch/<string:name>")
+def branch(name):
+    return "whallala"
 
 
 @app.route("/login", methods=['GET', 'POST'])
