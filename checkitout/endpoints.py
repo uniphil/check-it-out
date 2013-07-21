@@ -12,8 +12,9 @@ def hello():
     return render_template("pitch.html")
 
 
-@app.route("/branch/<string:name>")
-def branch(name):
+@app.route("/ref/<string:hash>")
+@login_required
+def ref(hash):
     return "whallala"
 
 

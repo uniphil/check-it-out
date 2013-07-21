@@ -5,9 +5,9 @@
     <section id="branches">
         <h2>Check out the branches</h2>
         <ul>
-            {% for branch in repo.heads %}
+            {% for branch in repo.branches %}
                 <li>
-                    <a href="{{ url_for('branch', name=branch.name) }}">{{ branch.name }}</a>
+                    <a href="{{ url_for('ref', hash=branch.commit.hexsha) }}" title="{{ branch.commit.hexsha }}">{{ branch.name }}</a>
                 </li>
             {% endfor %}
         </ul>
