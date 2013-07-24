@@ -1,6 +1,6 @@
 from . import app
 
 app.config.update(
-    SQLALCHEMY_DATABAE_URI='sqlite://config.sqlite3',
+    SQLALCHEMY_DATABASE_URI='sqlite:////tmp/test.db',
     CHECKOUT_ROOT='/home/phil/checked-out/',
 )
