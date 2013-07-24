@@ -3,7 +3,6 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import UserMixin
 
 
-app.config['SQLALCHEMY_DATABAE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 
 

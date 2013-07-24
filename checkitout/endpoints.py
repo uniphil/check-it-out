@@ -9,13 +9,7 @@ def hello():
     if current_user.is_authenticated():
         from .repository import repo
         return render_template("home.html", repo=repo)
-    return render_template("pitch.html")
-
-
-@app.route("/ref/<string:hash>")
-@login_required
-def ref(hash):
-    return "whallala"
+    return redirect(url_for('login'))
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -32,9 +26,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('hello'))
-
-
-@app.route('/account')
-@login_required
-def account():
-    return "hey you"
