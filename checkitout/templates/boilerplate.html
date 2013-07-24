@@ -8,7 +8,7 @@
         {% if current_user.is_authenticated() %}
         <ul>
             <li>
-                <a href="{{ url_for('account') }}">{{ current_user.username }}</a>
+                <a href="{{ a_link_yo }}">{{ current_user.username }}</a>
             </li>
             <li>
                 <a href="{{ url_for('logout') }}">log out</a>

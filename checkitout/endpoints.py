@@ -2,13 +2,12 @@ from flask import request, render_template, url_for, redirect
 from flask.ext.login import current_user, login_user, logout_user, login_required
 from . import app
 from .forms import LoginForm
-from db import User
+from gh import User
 
 @app.route("/")
 def hello():
     if current_user.is_authenticated():
-        from .repository import repo
-        return render_template("home.html", repo=repo)
+        return render_template("home.html", repo="lalala")
     return redirect(url_for('login'))
 
 

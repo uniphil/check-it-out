@@ -7,6 +7,5 @@ from flask.ext.login import LoginManager
 login_manager = LoginManager(app)
 
 import config
-import repository
-from db import db
+import gh
 import endpoints
