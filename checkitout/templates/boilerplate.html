@@ -10,9 +10,6 @@
             <li>
                 <a href="{{ a_link_yo }}">{{ current_user.username }}</a>
             </li>
-            <li>
-                <a href="{{ url_for('logout') }}">log out</a>
-            </li>
         </ul>
         {% else %}
             <a href="{{ url_for('login') }}">log in</a>

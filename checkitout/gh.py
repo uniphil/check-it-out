@@ -26,14 +26,15 @@ class User(db.Model, UserMixin):
     admin = db.Column(db.Boolean())
     username = db.Column(db.String(80), unique=True)
     access_token = db.Column(db.String(40))
-    
+
     def __init__(self, username, name, access_token):
         self.username = username
         self.admin = False
-    
+
     @classmethod
     def get(cls, id):
-        return cls("phil")
+        db_id = int(id)
+        return cls.query.get(db_id)
     
     def __repr__(self):
         return '<User: {}>'.format(self.username)
