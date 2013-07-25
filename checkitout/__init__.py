@@ -8,4 +8,5 @@ login_manager = LoginManager(app)
 
 import config
 import gh
+import appserver
 import endpoints

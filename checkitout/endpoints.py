@@ -2,7 +2,7 @@ from werkzeug import url_fix, url_encode
 from flask import request, render_template, url_for, redirect
 from flask.ext.login import current_user, login_user, logout_user, login_required
 from . import app
-from .forms import LoginForm
+from .appserver import app_url
 from gh import db, User
 
 
@@ -17,7 +17,8 @@ def ext_url(url, **url_args):
 @app.route("/")
 @login_required
 def hello():
-    return render_template("home.html", repo="lalala")
+    repos = current_user.gh.iter_user_repos(current_user.gh.user().login, number=5)
+    return render_template("home.html", repos=repos, app_url=app_url, dir=dir)
 
 
 @app.route("/login")
@@ -25,7 +26,7 @@ def login():
     if 'code' not in request.args:
         return redirect(ext_url(app.config['GH_OAUTH_URL'],
                                client_id=app.config['GH_CLIENT_ID'],
-                               redirect_uri='http://checkit.u24.ca:5000/login',
+                               redirect_uri='http://checkit.u24.ca/login',
                                scope='user:email,repo'))
     # hello github! lets grab our access token...
     from requests import post
@@ -48,3 +49,15 @@ def login():
         db.session.commit()
     login_user(user, remember=True)
     return redirect(url_for('hello'))
+
+
+@app.route('/settings')
+@login_required
+def settings():
+    return 'you are so cool.'
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return render_template('logged_out.html')

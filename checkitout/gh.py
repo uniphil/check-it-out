@@ -29,13 +29,23 @@ class User(db.Model, UserMixin):
 
     def __init__(self, username, name, access_token):
         self.username = username
+        self.name = name
+        self.access_token = access_token
         self.admin = False
 
     @classmethod
     def get(cls, id):
         db_id = int(id)
         return cls.query.get(db_id)
-    
+
+    @property
+    def gh(self):
+        try:
+            return self._gh
+        except AttributeError:
+            self._gh = login(token=self.access_token)
+            return self._gh
+
     def __repr__(self):
         return '<User: {}>'.format(self.username)
 
@@ -43,5 +53,3 @@ class User(db.Model, UserMixin):
 @login_manager.user_loader
 def load_user(userid):
     return User.get(userid)
-
-

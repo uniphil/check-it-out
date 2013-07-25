@@ -1,14 +1,21 @@
 {% extends "boilerplate.html" %}
 
 {% block page %}
-    <h1>project name or something lalala</h1>
-    <section id="branches">
-        <h2>Check out the branches</h2>
-        <ul>
-            {% for branch in repo.branches %}
-                <li>
-                    <a href="{{ url_for('ref', hash=branch.commit.hexsha) }}" title="{{ branch.commit.hexsha }}">{{ branch.name }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+    {% for repo in repos %}
+        <article>
+            <h2>{{ repo.name }}</h2>
+            <p>{{ repo.description }}</p>
+
+            <h3>Branches</h3>
+            <ul>
+                {% for branch in repo.iter_branches() %}
+                    <li>
+                        <h4>{{ branch.name }}</h4>
+                        <p><a href="{{ app_url(branch=branch.name) }}">Check it out »</a></p>
+                        <p>sha: {{ branch.commit.sha }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </article>
+    {% endfor %}
 {% endblock %}

@@ -4,18 +4,13 @@
     <header>
         <h1>check it out</h1>
     </header>
-    <nav>
-        {% if current_user.is_authenticated() %}
-        <ul>
-            <li>
-                <a href="{{ a_link_yo }}">{{ current_user.username }}</a>
-            </li>
-        </ul>
-        {% else %}
-            <a href="{{ url_for('login') }}">log in</a>
-        {% endif %}
-     </nav>
     {% block page %}
-        <p>nothing to see here...</p>
+        <p>nothing to see here... (if your the dev responsible for rendering this template directly... shame...)</p>
     {% endblock %}
+    <footer>
+        <article>
+            <img src="{{ current_user.gh.user().avatar_url }}" alt="your avatar"/>
+            <p>hey, {{ current_user.name }} (or as you wish your would friends say, {{ current_user.username }}). be cool and mess with your <a href="{{ url_for('settings') }}">settings</a>, or be the other thing if you want to  <a href="{{ url_for('logout') }}" title="meanie :[">log out</a></p>
+        </article>
+    </footer>
 {% endblock %}
