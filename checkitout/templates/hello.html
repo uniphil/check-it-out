@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>check it out</h1>
+    <article>
+        <h2>who are you?</h2>
+        <p>why not <a href="{{ url_for('login') }}">log in with github</a> and we'll find out...</p>
+    </article>
+{% endblock %}

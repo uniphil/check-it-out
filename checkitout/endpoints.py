@@ -15,10 +15,12 @@ def ext_url(url, **url_args):
 
 
 @app.route("/")
-@login_required
 def hello():
+    if not current_user.is_authenticated():
+        return render_template("hello.html")
     repos = current_user.gh.iter_user_repos(current_user.gh.user().login, number=5)
     return render_template("home.html", repos=repos, app_url=app_url, dir=dir)
+    
 
 
 @app.route("/login")
