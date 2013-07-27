@@ -1,23 +1,6 @@
 from . import app, login_manager
-from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import UserMixin
 from github3 import login
-
-
-db = SQLAlchemy(app)
-
-
-class App(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
-    remote = db.Column(db.String(80))
-
-    def __init__(self, name, remote):
-        self.name = name
-        self.remote = remote
-    
-    def __repr__(self):
-        return '<App: {} from {}>'.format(self.name, self.remote)
 
 
 class User(db.Model, UserMixin):
@@ -27,24 +10,11 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(80), unique=True)
     access_token = db.Column(db.String(40))
 
-    def __init__(self, username, name, access_token):
-        self.username = username
-        self.name = name
-        self.access_token = access_token
-        self.admin = False
-
     @classmethod
     def get(cls, id):
+        "la la la"
         db_id = int(id)
         return cls.query.get(db_id)
-
-    @property
-    def gh(self):
-        try:
-            return self._gh
-        except AttributeError:
-            self._gh = login(token=self.access_token)
-            return self._gh
 
     def __repr__(self):
         return '<User: {}>'.format(self.username)

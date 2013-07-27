@@ -28,7 +28,7 @@ def login():
     if 'code' not in request.args:
         return redirect(ext_url(app.config['GH_OAUTH_URL'],
                                client_id=app.config['GH_CLIENT_ID'],
-                               redirect_uri='http://checkit.u24.ca/login',
+                               redirect_uri='{}/login'.format(app.config['HOSTPORT']),
                                scope='user:email,repo'))
     # hello github! lets grab our access token...
     from requests import post
@@ -44,11 +44,6 @@ def login():
     from github3 import login
     gh = login(token=access_token)
     gh_user = gh.user()
-    user = User.query.filter_by(username=gh_user.login).first()
-    if user is None:
-        user = User(gh_user.login, gh_user.name, access_token)
-        db.session.add(user)
-        db.session.commit()
     login_user(user, remember=True)
     return redirect(url_for('hello'))
 
