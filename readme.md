@@ -15,4 +15,17 @@ Configuration is via environment variables. You need to export the following:
  * `GH_CLIENT_SECRET`: also [from github](https://github.com/settings/applications).
  * `SECRET_KEY`: a [secret key for flask](http://flask.pocoo.org/docs/api/#flask.Flask.secret_key) that check-it-out needs to track sessions.
 
-The only optional environment is `DEBUG`, which can be `True` or `False`.
+`DEBUG` is the only optional environment variable, and can be `True` or `False`.
+
+Tip: If you use [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/), you can set up environment variable exports in the `postactivate` hook at `$VIRTUAL_ENV/bin/postactivate`. Mine looks like this:
+
+```
+#!/usr/bin/zsh
+export HOST=0.0.0.0
+export PORT=5000
+export APP_REPO=uniphil/check-it-out
+export APP_ROOT=/tmp/checked-out
+export GH_CLIENT_ID=lalalalalalalalalala
+export GH_CLIENT_SECRET=lalalalalalalalalalalalalalalalalalalala
+export SECRET_KEY=lalalalalalalalalalalalalalalalalalalala
+```
