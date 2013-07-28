@@ -1,6 +1,9 @@
-{% extends "boilerplate.html" %}
+{% extends "base.html" %}
 
-{% block page %}
+{% block content %}
+    <header>
+        <h1>check it out</h1>
+    </header>
     {% for repo in repos %}
         <article>
             <h2>{{ repo.name }}</h2>
@@ -18,4 +21,10 @@
             </ul>
         </article>
     {% endfor %}
+    <footer>
+        <article>
+            <img src="{{ current_user.avatar_url }}" alt="your avatar"/>
+            <p>hey, {{ current_user.name }} (or as you wish your would friends say, {{ current_user.login }}). not sure why you might ever want to, but you could  <a hre$
+        </article>
+    </footer>
 {% endblock %}
