@@ -21,8 +21,8 @@ Configuration is via environment variables.
 ## Optionl Configuration
 
  * `DEBUG` will enable the flask/werkzeug debugger if set to `True`.
- * `GH_OAUTH_CALLBACK_HOST` the public-facing host or IP for your `check-it-out` installation, which must match what you set up in your application registration [at github](https://github.com/settings/applications). `check-it-out` will use this to build the callback URL it passes to github, which is useful if you are behind a reverse-proxy or something.
- * `GH_OAUTH_CALLBACK_PORT` same as above
+ * `GH_CALLBACK_HOST` the public-facing host or IP for your `check-it-out` installation, which must match what you set up in your application registration [at github](https://github.com/settings/applications). `check-it-out` will use this to build the callback URL it passes to github, which is useful if you are behind a reverse-proxy or something.
+ * `GH_CALLBACK_PORT` same as above
 
 
 Tip: If you use [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/), you can set up environment variable exports in the `postactivate` hook at `$VIRTUAL_ENV/bin/postactivate`. Mine looks like this:

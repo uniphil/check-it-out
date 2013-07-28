@@ -53,8 +53,8 @@ def login():
 def oauth_callback():
     # Get the access token
     gh_access_url = 'https://github.com/login/oauth/access_token'
-    access_request_data = dict(client_id=app.config['GH_CLIENT_ID'],
-                               client_secret=app.config['GH_CLIENT_SECRET'],
+    access_request_data = dict(client_id=env['GH_CLIENT_ID'],
+                               client_secret=env['GH_CLIENT_SECRET'],
                                code=request.args['code'])
     gh_access = post(gh_access_url, data=access_request_data,
                      headers={'accept': 'application/json'})
