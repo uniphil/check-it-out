@@ -57,9 +57,12 @@ def oauth_callback():
                                client_secret=env['GH_CLIENT_SECRET'],
                                code=request.args['code'])
     gh_access = post(gh_access_url, data=access_request_data,
-                     headers={'accept': 'application/json'})
-    access_token = access_stuff.json().get('access_token')
-    assert access_token is not None, "no access token provided..."
+                     headers={'accept': 'application/json'}).json()
+    if 'error' in gh_access:
+        print 'ERROR: {}\nposted: {}'.format(gh_access, access_request_data)
+        flash('github said the auth code was invalid. uh oh!')
+        abort(500)
+    access_token = gh_access['access_token']
 
     # Now get YOU!!!
     user = RepoUser.get(access_token)
@@ -72,7 +75,7 @@ def oauth_callback():
         abort(404)
 
     # Check access...
-    if not gh_repo.is_collaborator(gh_user.login):
+    if not gh_repo.is_collaborator(user.login):
         abort(403)  # :(
 
     # All good!
@@ -91,7 +94,7 @@ class RepoUser(UserMixin):
         return getattr(self._gh_user, name)
 
     @classmethod
-    def get(cls, access_code):
+    def get(cls, access_token):
         gh = gh_from_login(token=access_token)
         return cls(gh)
 
