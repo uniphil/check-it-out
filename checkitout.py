@@ -103,8 +103,10 @@ class RepoUser(UserMixin):
 @login_manager.user_loader
 def load_user(userid):
     try:
-        return RepoUser.userid(userid)
-    except GitHubError:
+        print "trying to load user for access: {}".format(userid)
+        return RepoUser.ge(userid)
+    except GitHubError as e:
+        print "github error:\n{}".format(e)
         return None
 
 
