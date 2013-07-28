@@ -24,7 +24,7 @@
     <footer>
         <article>
             <img src="{{ current_user.avatar_url }}" alt="your avatar"/>
-            <p>hey, {{ current_user.name }} (or as you wish your would friends say, {{ current_user.login }}). not sure why you might ever want to, but you could  <a hre$
+            <p>hey, {{ current_user.name }} (or as you wish your would friends say, {{ current_user.login }}). not sure why you might ever want to, but you could  <a href="{{ url_for('logout') }}" title="meanie :[">log out</a></p>
         </article>
     </footer>
 {% endblock %}
