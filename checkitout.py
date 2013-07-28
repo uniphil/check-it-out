@@ -90,6 +90,11 @@ class RepoUser(UserMixin):
         self.gh = gh
         self._gh_user = gh.user()
 
+    @classmethod
+    def get(cls, access_token):
+        gh = gh_from_login(token=userid)
+        return cls(gh)
+
     def __getattr__(self, name):
         """Defer stuff we don't have to our github3 user instance."""
         return getattr(self._gh_user, name)
@@ -97,9 +102,8 @@ class RepoUser(UserMixin):
 
 @login_manager.user_loader
 def load_user(userid):
-    gh = gh_from_login(token=userid)
     try:
-        return RepoUser(gh)
+        return RepoUser.userid(userid)
     except GitHubError:
         return None
 
