@@ -31,11 +31,8 @@ except KeyError as e:
 
 @app.route('/')
 def hello():
-    print "hello!"
     if not current_user.is_authenticated():
-        print "not authorized..."
         return render_template('hello.html')
-    print "authorized!"
     return render_template('home.html')
 
 
@@ -131,9 +128,14 @@ def sadface(error):
     return render_template('403-unauthorized.html'), 403
 
 
-@app.errorhandler(401)
+@app.errorhandler(404)
 def ohnoes(error):
     return render_template('404-whaaaaat.html'), 404
+
+
+@app.errorhandler(500)
+def githuuuuuuuuub(error):
+    return render_template('500-github-wtf.html'), 500
 
 
 if __name__ == '__main__':
