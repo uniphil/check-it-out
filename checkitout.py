@@ -31,8 +31,11 @@ except KeyError as e:
 
 @app.route('/')
 def hello():
+    print "hello!"
     if not current_user.is_authenticated():
+        print "not authorized..."
         return render_template('hello.html')
+    print "authorized!"
     return render_template('home.html')
 
 
@@ -92,7 +95,7 @@ class RepoUser(UserMixin):
 
     @classmethod
     def get(cls, access_token):
-        gh = gh_from_login(token=userid)
+        gh = gh_from_login(token=access_token)
         return cls(gh)
 
     def __getattr__(self, name):
@@ -103,7 +106,7 @@ class RepoUser(UserMixin):
 @login_manager.user_loader
 def load_user(userid):
     try:
-        return RepoUser.userid(userid)
+        return RepoUser.get(userid)
     except GitHubError:
         return None
 
