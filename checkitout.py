@@ -29,11 +29,17 @@ except KeyError as e:
     raise e
 
 
+def get_repo(user):
+    repo_user, repo_name = env['APP_REPO'].split('/', 1)
+    return user.gh.repository(repo_user, repo_name)
+
+
 @app.route('/')
 def hello():
     if not current_user.is_authenticated():
         return render_template('hello.html')
-    return render_template('home.html')
+    repo = get_repo(current_user)
+    return render_template('home.html', repo=repo)
 
 
 @app.route('/login')
@@ -69,8 +75,7 @@ def oauth_callback():
     user = RepoUser.get(access_token)
 
     # Get the repo...
-    repo_user, repo_name = env['APP_REPO'].split('/', 1)
-    gh_repo = user.gh.repository(repo_user, repo_name)
+    gh_repo = get_repo(user)
     if gh_repo is None:
         flash("Can\'t find that repo on GitHub for you. Do you have access?")
         abort(404)
@@ -84,29 +89,6 @@ def oauth_callback():
     # All good!
     login_user(user, remember=True)
     return redirect(url_for('hello'))
-
-
-class RepoUser(UserMixin):
-    """A user on GitHub with collaborator access to our repo."""
-    def __init__(self, gh, access_token):
-        self.gh = gh
-        self._gh_user = gh.user()
-        self._access_token = access_token
-
-    @classmethod
-    def get(cls, access_token):
-        gh = gh_from_login(token=access_token)
-        return cls(gh, access_token)
-
-    def get_id(self):
-        return self._access_token
-
-    def __repr__(self):
-        return "<RepoUser: {}>".format(self.name)
-
-    def __getattr__(self, name):
-        """Defer stuff we don't have to our github3 user instance."""
-        return getattr(self._gh_user, name)
 
 
 @login_manager.user_loader
@@ -136,6 +118,29 @@ def ohnoes(error):
 @app.errorhandler(500)
 def githuuuuuuuuub(error):
     return render_template('500-github-wtf.html'), 500
+
+
+class RepoUser(UserMixin):
+    """A user on GitHub with collaborator access to our repo."""
+    def __init__(self, gh, access_token):
+        self.gh = gh
+        self._gh_user = gh.user()
+        self._access_token = access_token
+
+    @classmethod
+    def get(cls, access_token):
+        gh = gh_from_login(token=access_token)
+        return cls(gh, access_token)
+
+    def get_id(self):
+        return self._access_token
+
+    def __repr__(self):
+        return "<RepoUser: {}>".format(self.name)
+
+    def __getattr__(self, name):
+        """Defer stuff we don't have to our github3 user instance."""
+        return getattr(self._gh_user, name)
 
 
 if __name__ == '__main__':

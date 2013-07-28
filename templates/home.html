@@ -4,23 +4,21 @@
     <header>
         <h1>check it out</h1>
     </header>
-    {% for repo in repos %}
-        <article>
-            <h2>{{ repo.name }}</h2>
-            <p>{{ repo.description }}</p>
+    <article>
+        <h2>{{ repo.name }}</h2>
+        <p><em>{{ repo.description }}</em></p>
 
-            <h3>Branches</h3>
-            <ul>
-                {% for branch in repo.iter_branches() %}
-                    <li>
-                        <h4>{{ branch.name }}</h4>
-                        <p><a href="{{ app_url(branch=branch.name) }}">Check it out »</a></p>
-                        <p>sha: {{ branch.commit.sha }}</p>
-                    </li>
-                {% endfor %}
-            </ul>
-        </article>
-    {% endfor %}
+        <h3>branches</h3>
+        <ul>
+            {% for branch in repo.iter_branches() %}
+                <li>
+                    <h4>{{ branch.name }}</h4>
+                    <p>sha: {{ branch.commit.sha }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </article>
+
     <footer>
         <article>
             <img src="{{ current_user.avatar_url }}" alt="your avatar"/>
