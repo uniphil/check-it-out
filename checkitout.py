@@ -107,4 +107,5 @@ def ohnoes(error):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host=app.config['HOST'])  # ugh. I guess it makes sense that host
+                                      # has to be set here...
