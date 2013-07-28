@@ -89,14 +89,18 @@ def oauth_callback():
 
 class RepoUser(UserMixin):
     """A user on GitHub with collaborator access to our repo."""
-    def __init__(self, gh):
+    def __init__(self, gh, access_token):
         self.gh = gh
         self._gh_user = gh.user()
+        self._access_token = access_token
 
     @classmethod
     def get(cls, access_token):
         gh = gh_from_login(token=access_token)
-        return cls(gh)
+        return cls(gh, access_token)
+
+    def get_id(self):
+        return self._access_token
 
     def __getattr__(self, name):
         """Defer stuff we don't have to our github3 user instance."""
