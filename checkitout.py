@@ -82,6 +82,8 @@ def oauth_callback():
     if not gh_repo.is_collaborator(user.login):
         abort(403)  # :(
 
+    print "{} is collaborator on {}? {}".format(user, gh_repo, gh_repo.is_collaborator(user.login))
+
     # All good!
     login_user(user, remember=True)
     return redirect(url_for('hello'))
@@ -102,6 +104,9 @@ class RepoUser(UserMixin):
     def get_id(self):
         return self._access_token
 
+    def __repr__(self):
+        return "<RepoUser: {}>".format(self.name)
+
     def __getattr__(self, name):
         """Defer stuff we don't have to our github3 user instance."""
         return getattr(self._gh_user, name)
@@ -110,10 +115,8 @@ class RepoUser(UserMixin):
 @login_manager.user_loader
 def load_user(userid):
     try:
-        print "trying to load user for access: {}".format(userid)
         return RepoUser.get(userid)
     except GitHubError as e:
-        print "github error:\n{}".format(e)
         return None
 
 
