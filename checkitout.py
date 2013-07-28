@@ -10,6 +10,7 @@ from os import environ as env
 from requests import post
 from werkzeug import url_encode
 from github3 import login as gh_from_login
+from github3.models import GitHubError
 from flask import (Flask, request, session, url_for, redirect, render_template,
                    flash, abort)
 from flask.ext.login import (LoginManager, login_required, UserMixin, 
@@ -93,10 +94,20 @@ class RepoUser(UserMixin):
         """Defer stuff we don't have to our github3 user instance."""
         return getattr(self._gh_user, name)
 
-    @classmethod
-    def get(cls, access_token):
-        gh = gh_from_login(token=access_token)
-        return cls(gh)
+
+@login_manager.user_loader
+def load_user(userid):
+    gh = gh_from_login(token=userid)
+    try:
+        return RepoUser(gh)
+    except GitHubError:
+        return None
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return render_template('logged_out.html')
 
 
 @app.errorhandler(403)
